@@ -1,103 +1,152 @@
-import Image from "next/image";
+//app\page.tsx
+"use client";
+import Discounts4U from "@/components/Discount4u";
+import FreeDrinks from "@/components/FreeDrinks";
+import Grilled from "@/components/Grilled";
+import PartyJollof from "@/components/PartyJollof";
+import ResGrosTabs from "@/components/ResGrosTabs";
+import TagFilter from "@/components/TagFilter";
+import TopBar from "@/components/TopBar";
+import React, { useState, useEffect } from "react";
+import { sampleData } from "@/constant/sampleData";
+import Cuisines from "@/components/Cuisines";
+import SideBarFilter from "@/components/SideBarFilter";
+import FilteredGrid from "@/components/FilteredGrid";
+import AllRestaurants from "@/components/AllRestaurants";
 
-export default function Home() {
+const Home = () => {
+  const [allItems] = useState(sampleData);
+  const [filteredItems, setFilteredItems] = useState(allItems);
+  const [selectedSort, setSelectedSort] = useState<string | null>(null);
+
+  const [tags] = useState([
+    { id: "rice", name: "Rice", iconPath: "/vectors/rice.jpg" },
+    { id: "chicken", name: "Chicken", iconPath: "/vectors/chicken.jpg" },
+    { id: "shawarma", name: "Shawarma", iconPath: "/vectors/shawarma.jpg" },
+    { id: "juice", name: "Juice", iconPath: "/vectors/juice.png" },
+    { id: "goat-meat", name: "Goat Meat", iconPath: "/vectors/goat-meat.png" },
+    { id: "amala", name: "Amala", iconPath: "/vectors/amala.png" },
+    { id: "fastfood", name: "Fastfood", iconPath: "/vectors/fastfood.png" },
+    { id: "soup-bowl", name: "Soup Bowl", iconPath: "/vectors/soup-bowl.png" },
+    { id: "sandwich", name: "Sandwich", iconPath: "/vectors/sandwich.png" },
+    { id: "grills", name: "Grills", iconPath: "/vectors/BBQ.jpg" },
+    { id: "ice-cream", name: "Ice Cream", iconPath: "/vectors/ice-cream.png" },
+    { id: "pizza", name: "Pizza", iconPath: "/vectors/placeholder.png" },
+    { id: "burgers", name: "Burgers", iconPath: "/vectors/placeholder.png" },
+    { id: "pasta", name: "Pasta", iconPath: "/vectors/placeholder.png" },
+    { id: "salad", name: "Salad", iconPath: "/vectors/placeholder.png" },
+    { id: "desserts", name: "Desserts", iconPath: "/vectors/placeholder.png" },
+    { id: "seafood", name: "Seafood", iconPath: "/vectors/placeholder.png" },
+    {
+      id: "beverages",
+      name: "Beverages",
+      iconPath: "/vectors/placeholder.png",
+    },
+    { id: "snacks", name: "Snacks", iconPath: "/vectors/placeholder.png" },
+    { id: "soups", name: "Soups", iconPath: "/vectors/placeholder.png" },
+  ]);
+
+  const parseReviews = (reviews: string): number => {
+    const match = reviews.match(/(\d+)/);
+    return match ? parseInt(match[0]) : 0;
+  };
+
+  const sortData = (sortType: string | null) => {
+    const sorted = [...sampleData];
+    switch (sortType) {
+      case "mostPopular":
+      case "mostRated":
+        return sorted.sort(
+          (a, b) => parseReviews(b.reviews) - parseReviews(a.reviews)
+        );
+      case "nearest":
+        return sorted.sort((a, b) => a.location.localeCompare(b.location));
+      case "highestRated":
+        return sorted.sort((a, b) => b.rating - a.rating);
+      case "newest":
+        return sorted.sort(
+          (a, b) => parseReviews(a.reviews) - parseReviews(b.reviews)
+        );
+      default:
+        return sorted;
+    }
+  };
+
+  const handleFilterChange = (selectedTags: string[]) => {
+    if (selectedTags.length === 0) {
+      setFilteredItems(allItems);
+      return;
+    }
+
+    const filtered = allItems.filter((item) =>
+      item.tags.split(",").some((tag) => selectedTags.includes(tag.trim()))
+    );
+    setFilteredItems(filtered);
+  };
+
+  const [activeTab, setActiveTab] = useState<"Restaurants" | "Grocery">(
+    "Restaurants"
+  );
+  const handleTabChange = (tab: "Restaurants" | "Grocery") => setActiveTab(tab);
+
+  const [showCart, setShowCart] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowCart(true);
+      } else {
+        setShowCart(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div>
+      <div className="border-b-1 border-gray-200">
+        <TopBar />
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <div className="flex items-center h-[100px] pl-[40px] border-b-1 border-gray-200 w-full">
+        <ResGrosTabs activeTab={activeTab} onTabChange={handleTabChange} />
+      </div>
+
+      <div>
+        <TagFilter tags={tags} onFilterChange={handleFilterChange} />
+      </div>
+
+      <Cuisines />
+
+      <div className="fullpage flex w-full max-w-screen overflow-hidden">
+        {/* Sidebar on the left */}
+        <div className="w-1/4 min-w-[250px] p-4 border-r border-gray-200">
+          <SideBarFilter
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Main content area */}
+        <div className="w-3/4 max-w-full overflow-x-hidden">
+          {selectedSort !== null ? (
+            <FilteredGrid filteredItems={sortData(selectedSort).slice(0, 20)} />
+          ) : (
+            <div className="mainpage p-4 space-y-4">
+              <Discounts4U />
+              <PartyJollof />
+              <FreeDrinks />
+              <Grilled />
+              <AllRestaurants />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default Home;
