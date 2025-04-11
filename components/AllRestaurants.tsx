@@ -86,7 +86,26 @@ import { sampleData } from '@/constant/sampleData';
 import { Star } from 'lucide-react';
 
 const AllRestaurants = () => {
-  const currentHour = new Date().getHours();
+  const isCurrentlyOpen = (opensAt: string, closesAt: string): boolean => {
+    const now = new Date();
+
+    const [openHour, openMinute] = opensAt.split(':').map(Number);
+    const [closeHour, closeMinute] = closesAt.split(':').map(Number);
+
+    const openTime = new Date(now);
+    openTime.setHours(openHour, openMinute, 0, 0);
+
+    const closeTime = new Date(now);
+    closeTime.setHours(closeHour, closeMinute, 0, 0);
+
+    // If closesAt is earlier than opensAt, it means the business closes the next day
+    if (closeTime <= openTime) {
+      // Extend closeTime to next day
+      closeTime.setDate(closeTime.getDate() + 1);
+    }
+
+    return now >= openTime && now <= closeTime;
+  };  
 
   return (
     <div className="px-4 py-4">
@@ -96,9 +115,7 @@ const AllRestaurants = () => {
       {/* <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))]"> */}
 
         {sampleData.map((restaurant) => {
-          const opensAt = parseInt(restaurant.opensAt.split(':')[0], 10);
-          const closesAt = parseInt(restaurant.closesAt.split(':')[0], 10);
-          const isOpen = currentHour >= opensAt && currentHour < closesAt;
+          const isOpen = isCurrentlyOpen(restaurant.opensAt, restaurant.closesAt);
 
           return (
             <div
@@ -117,10 +134,10 @@ const AllRestaurants = () => {
                 />
                 <span
                   className={`absolute top-2 left-2 text-xs font-medium px-2 py-1 rounded text-white ${
-                    isOpen ? 'bg-green-600' : 'bg-red-500'
+                    isOpen ? '' : 'bg-red-500'
                   }`}
                 >
-                  {isOpen ? 'Open Now' : 'Closed'}
+                  {isOpen ? '' : 'Closed'}
                 </span>
               </div>
 
