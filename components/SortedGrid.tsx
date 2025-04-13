@@ -1,12 +1,11 @@
-//components\FilteredGrid.tsx
-
+//components\SortedGrid.tsx
 'use client'
 
 import Image from 'next/image'
 import React from 'react'
 
-interface FilteredGridProps {
-  filteredItems: {
+interface SortedGridProps {
+  sortedItems: {
     id: string
     image: string
     name: string
@@ -21,10 +20,11 @@ interface FilteredGridProps {
   }[]
 }
 
-const FilteredGrid: React.FC<FilteredGridProps> = ({ filteredItems }) => {
+
+const SortedGrid: React.FC<SortedGridProps> = ({ sortedItems }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-4 py-6 w-full">
-      {filteredItems.map((item) => (
+      {sortedItems.map((item) => (
         <div key={item.id}>
           <Image
             src={item.image}
@@ -52,4 +52,4 @@ const FilteredGrid: React.FC<FilteredGridProps> = ({ filteredItems }) => {
   )
 }
 
-export default FilteredGrid
+export default SortedGrid

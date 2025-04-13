@@ -1,0 +1,225 @@
+// //app\(root)\layout.tsx
+// "use client";
+// import React, { useState, useEffect } from "react";
+// import SideBarFilter from "@/components/SideBarFilter";
+// import TopBar from "@/components/TopBar";
+// import ResGrosTabs from "@/components/ResGrosTabs";
+// import Cuisines from "@/components/Cuisines";
+// import TagFilterPanel from "@/components/TagFilterPanel";
+// import type { Tag } from "@/components/TagFilterPanel";
+// import { FilterProvider, useFilter } from "@/context/FilterContext";
+// import { supabase } from "@/lib/supabaseClient";
+
+// export default function RootLayout({
+//   children,
+// }: {
+//   children: React.ReactElement<{
+//     allItems: unknown[];
+//     filteredItems: unknown[];
+//     selectedSort: string | null;
+//     setSelectedSort: (sort: string | null) => void;
+//     handleFilterChange: (filters: unknown) => void;
+//   }>;
+// }) {
+//   const [selectedSort, setSelectedSort] = useState<string | null>(null);
+//   const [activeTab, setActiveTab] = useState<"Restaurants" | "Grocery">(
+//     "Restaurants"
+//   );
+//   const [tags, setTags] = useState<Tag[]>([]); // ✅ Correct type usage
+
+//   const {
+//     allItems,
+//     filteredItems,
+//     setSelectedSort: setGlobalSort,
+//     handleFilterChange,
+//   } = useFilter();
+
+//   const handleTabChange = (tab: "Restaurants" | "Grocery") => setActiveTab(tab);
+
+//   const handleSortUpdate = (sort: string | null) => {
+//     setSelectedSort(sort);
+//     setGlobalSort(sort);
+//   };
+
+//   useEffect(() => {
+//     const fetchTags = async () => {
+//       const { data, error } = await supabase
+//         .from("tags")
+//         .select("*")
+//         .order("name");
+
+//       if (!error && data) {
+//         const transformed: Tag[] = data.map((tag) => ({
+//           id: tag.id,
+//           name: tag.name,
+//           iconPath: tag.icon_path, // ✅ map to expected format
+//         }));
+//         setTags(transformed);
+//       } else {
+//         console.error("Failed to fetch tags:", error);
+//       }
+//     };
+
+//     fetchTags();
+//   }, []);
+
+//   return (
+//     <FilterProvider>
+//       <div className="font-inter bg-white h-full w-full">
+//         {/* Top Navigation */}
+//         <div className="border-b-1 border-gray-200">
+//           <TopBar />
+//         </div>
+
+//         {/* Tabs */}
+//         <div className="flex items-center h-[100px] pl-[40px] border-b-1 border-gray-200 w-full">
+//           <ResGrosTabs activeTab={activeTab} onTabChange={handleTabChange} />
+//         </div>
+
+//         {/* Tag Filtering */}
+//         <TagFilterPanel tags={tags} onFilterChange={handleFilterChange} />
+//         <Cuisines />
+
+//         {/* Main layout with Sidebar and Content */}
+//         <main className="flex h-full w-full">
+//           {/* Sidebar */}
+//           <div className="w-[23%] min-w-[250px] p-4 sticky top-0 h-screen bg-white z-10">
+//             <SideBarFilter
+//               selectedSort={selectedSort}
+//               setSelectedSort={(value) =>
+//                 handleSortUpdate(
+//                   typeof value === "function" ? value(selectedSort) : value
+//                 )
+//               }
+//             />
+//           </div>
+
+//           {/* Content */}
+//           <div className="flex-grow p-4 overflow-y-auto">
+//             {React.cloneElement(children, {
+//               ...children.props,
+//               allItems,
+//               filteredItems,
+//               selectedSort,
+//               setSelectedSort: setGlobalSort,
+//               handleFilterChange,
+//             })}
+//           </div>
+//         </main>
+//       </div>
+//     </FilterProvider>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//app\(root)\layout.tsx
+"use client";
+import React, { useState, useEffect } from "react";
+import SideBarFilter from "@/components/SideBarFilter";
+import TopBar from "@/components/TopBar";
+import ResGrosTabs from "@/components/ResGrosTabs";
+import Cuisines from "@/components/Cuisines";
+import TagFilterPanel from "@/components/TagFilterPanel";
+import type { Tag } from "@/components/TagFilterPanel";
+import { FilterProvider, useFilter } from "@/context/FilterContext";
+import { supabase } from "@/lib/supabaseClient";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactElement<{
+    allItems: unknown[];
+    filteredItems: unknown[];
+    selectedSort: string | null;
+    setSelectedSort: (sort: string | null) => void;
+    handleFilterChange: (filters: unknown) => void;
+  }>;
+}) {
+  const [selectedSort, setSelectedSort] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"Restaurants" | "Grocery">(
+    "Restaurants"
+  );
+  const [tags, setTags] = useState<Tag[]>([]); // ✅ Correct type usage
+
+  const {
+    allItems,
+    filteredItems,
+    setSelectedSort: setGlobalSort,
+    handleFilterChange,
+  } = useFilter();
+
+  const handleTabChange = (tab: "Restaurants" | "Grocery") => setActiveTab(tab);
+
+  const handleSortUpdate = (sort: string | null) => {
+    setSelectedSort(sort);
+    setGlobalSort(sort);
+  };
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      const { data, error } = await supabase
+        .from("tags")
+        .select("*")
+        .order("name");
+
+      if (!error && data) {
+        const transformed: Tag[] = data.map((tag) => ({
+          id: tag.id,
+          name: tag.name,
+          iconPath: tag.icon_path, // ✅ map to expected format
+        }));
+        setTags(transformed);
+      } else {
+        console.error("Failed to fetch tags:", error);
+      }
+    };
+
+    fetchTags();
+  }, []);
+
+  return (
+      <div className="font-inter bg-white h-full w-full">
+        {/* Top Navigation */}
+        <div className="border-b-1 border-gray-200">
+          <TopBar />
+        </div>
+
+        {/* Tabs */}
+        <div className="flex items-center h-[100px] pl-[40px] border-b-1 border-gray-200 w-full">
+          <ResGrosTabs activeTab={activeTab} onTabChange={handleTabChange} />
+        </div>
+
+        {/* Tag Filtering */}
+        <TagFilterPanel />
+        <Cuisines />
+
+        {/* Main layout with Sidebar and Content */}
+        <main className="flex h-full w-full">
+          {/* Sidebar */}
+          <div className="w-[23%] min-w-[250px] p-4 sticky top-0 h-screen bg-white z-10">
+            <SideBarFilter
+              </div>
+
+          {/* Content */}
+          <div className="flex-grow p-4 overflow-y-auto">
+            {React.cloneElement (children)}
+          </div>
+        </main>
+      </div>
+  );
+}

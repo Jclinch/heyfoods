@@ -1,96 +1,43 @@
 // //components\AllRestaurants.tsx
-// // components/AllRestaurants.tsx
-
-// 'use client';
-// import React from 'react';
-// import Image from 'next/image';
-// import { sampleData } from '@/constant/sampleData';
-// import { Star } from 'lucide-react';
-
-// const AllRestaurants = () => {
-//   const currentHour = new Date().getHours();
-
-//   return (
-//     <div className="px-6 py-4 ">
-//       <h2 className="text-2xl font-extrabold mb-4">All Restaurants</h2>
-
-//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 ">
-//         {sampleData.map((restaurant) => {
-//           const opensAt = parseInt(restaurant.opensAt.split(':')[0], 10);
-//           const closesAt = parseInt(restaurant.closesAt.split(':')[0], 10);
-//           const isOpen = currentHour >= opensAt && currentHour < closesAt;
-
-//           return (
-//             <div
-//               key={restaurant.id}
-//               className={`rounded-xl  shadow-md overflow-hidden min-w-[15%] max-w-[33.33%] ${
-//                 isOpen ? 'opacity-100' : 'opacity-50'
-//               }`}
-//             >
-//               {/* Image + open/closed badge */}
-//               <div className="relative h-40 w-full">
-//                 <Image
-//                   src={restaurant.image}
-//                   alt={restaurant.name}
-//                   fill
-//                   className="object-cover"
-//                 />
-//                 <span
-//                   className={`absolute top-2 left-2 text-xs font-medium px-2 py-1 rounded text-white ${
-//                     isOpen ? 'bg-green-600' : 'bg-red-500'
-//                   }`}
-//                 >
-//                   {isOpen ? 'Open Now' : 'Closed'}
-//                 </span>
-//               </div>
-
-//               {/* Info */}
-//               <div className="p-3">
-//                 <h3 className="font-bold text-base mb-1">{restaurant.name}</h3>
-//                 <p className="text-sm text-gray-500 mb-2">{restaurant.tags}</p>
-
-//                 <div className="flex items-center text-sm text-gray-700 mb-2">
-//                   <Star className="w-4 h-4 text-green-500" />
-//                   <span className="ml-1 font-semibold">{restaurant.rating}</span>
-//                   <span className="ml-1">{restaurant.reviews}+ Ratings</span>
-//                 </div>
-
-//                 {restaurant.notice && (
-//                   <div className="bg-gray-100 text-xs text-gray-800 rounded px-3 py-2">
-//                     {restaurant.notice}
-//                   </div>
-//                 )}
-//               </div>
-//             </div>
-//           );
-//         })}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AllRestaurants;
-
-
-
-
-
-
-
-
-
-'use client';
-import React from 'react';
-import Image from 'next/image';
-import { sampleData } from '@/constant/sampleData';
-import { Star } from 'lucide-react';
+"use client";
+import React from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+import { Star } from "lucide-react";
+import { Typography } from "@mui/material";
 
 const AllRestaurants = () => {
+ interface Restaurant {
+    id: string;
+    name: string;
+    image: string;
+    tags: string;
+    rating: number;
+    reviews: string;
+    discount: string;
+    opensAt: string;
+    closesAt: string;
+    notice?: string;
+  }
+
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      const { data, error } = await supabase.from("restaurants").select("*");
+      if (!error) setRestaurants(data);
+    };
+    fetchRestaurants();
+  }, []);
+
   const isCurrentlyOpen = (opensAt: string, closesAt: string): boolean => {
     const now = new Date();
+    if (!opensAt || !closesAt) {
+      return false;
+    }
 
-    const [openHour, openMinute] = opensAt.split(':').map(Number);
-    const [closeHour, closeMinute] = closesAt.split(':').map(Number);
+    const [openHour, openMinute] = opensAt.split(":").map(Number);
+    const [closeHour, closeMinute] = closesAt.split(":").map(Number);
 
     const openTime = new Date(now);
     openTime.setHours(openHour, openMinute, 0, 0);
@@ -105,23 +52,33 @@ const AllRestaurants = () => {
     }
 
     return now >= openTime && now <= closeTime;
-  };  
+  };
 
   return (
-    <div className="px-4 py-4">
-      <h2 className="text-2xl font-extrabold mb-4">All Restaurants</h2>
+    <div className="px-4 py-4 ">
+      <Typography
+        variant="h4"
+        className="font-black "
+        style={{ fontFamily: "Arial", fontSize: "26px", fontWeight: 700, marginBottom: "40px" }}
+      >
+        {" "}
+        All Restaurants
+      </Typography>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-6">
-      {/* <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))]"> */}
+        {/* <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))]"> */}
 
-        {sampleData.map((restaurant) => {
-          const isOpen = isCurrentlyOpen(restaurant.opensAt, restaurant.closesAt);
+        {restaurants.map((restaurant) => {
+          const isOpen = isCurrentlyOpen(
+            restaurant.opensAt,
+            restaurant.closesAt
+          );
 
           return (
             <div
               key={restaurant.id}
               className={`rounded-sm overflow-hidden ${
-                isOpen ? 'opacity-100' : 'opacity-50'
+                isOpen ? "opacity-100" : "opacity-50"
               }`}
             >
               {/* Image + open/closed badge */}
@@ -130,28 +87,30 @@ const AllRestaurants = () => {
                   src={restaurant.image}
                   alt={restaurant.name}
                   fill
-                  className="object-cover"
+                  style={{ objectFit: "cover" }}
                 />
                 <span
                   className={`absolute top-2 left-2 text-xs font-medium px-2 py-1 rounded text-white ${
-                    isOpen ? '' : 'bg-red-500'
+                    isOpen ? "" : "bg-red-500"
                   }`}
                 >
-                  {isOpen ? '' : 'Closed'}
+                  {isOpen ? "" : "Closed"}
                 </span>
               </div>
 
               {/* Info */}
-              <div className="p-3">
-                <h3 className="font-bold text-base mb-1">{restaurant.name}</h3>
+              <div className="p-3 ml-[-10px]">
+                <h3 className="font-bold text-[20px] ">{restaurant.name}</h3>
                 <p className="text-sm text-gray-500 mb-2">{restaurant.tags}</p>
-
                 <div className="flex items-center text-sm text-gray-700 mb-2">
-                  <Star className="w-4 h-4 text-green-500" />
-                  <span className="ml-1 font-semibold">{restaurant.rating}</span>
-                  <span className="ml-1">{restaurant.reviews}+ Ratings</span>
+                  <Star fill="#22c55e" className="w-4 h-4 text-green-500" />
+                  <span className="ml-1 font-semibold">
+                    {restaurant.rating}
+                  </span>
+                  <span className="ml-3 text-black">
+                    {restaurant.reviews}
+                  </span>
                 </div>
-
                 {restaurant.notice && (
                   <div className="bg-gray-100 text-xs text-gray-800 rounded px-3 py-2">
                     {restaurant.notice}

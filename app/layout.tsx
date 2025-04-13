@@ -1,9 +1,14 @@
+//app\layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
+import { FilterProvider } from "@/context/FilterContext";
 
 export const metadata: Metadata = {
   title: "HeyFood Africa",
   description: "Discover and enjoy the best food experiences across Africa.",
+  icons: {
+    icon: '//vectors/logo.svg', // or '/favicon.png'
+  },
 };
 
 export default function RootLayout({
@@ -13,7 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased">{children}</body>
-    </html>
+      <link rel="icon" type="image/svg+xml" href="/vectors/logo.svg" />
+      <body>
+        <FilterProvider>
+          {children}
+        </FilterProvider>
+      </body>
+      </html>
   );
 }
