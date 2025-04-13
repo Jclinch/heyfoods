@@ -24,12 +24,7 @@ type Restaurant = {
 };
 
 const Home: React.FC = () => {
-  const {
-    allItems,
-    filteredItems,
-    selectedSort,
-    resetFilter,
-  } = useFilter();
+  const { allItems, filteredItems, selectedSort, resetFilter } = useFilter();
 
   const parseReviews = (reviews: string): number => {
     const match = reviews.match(/(\d+)/);
@@ -41,19 +36,24 @@ const Home: React.FC = () => {
     switch (selectedSort) {
       case "mostPopular":
       case "mostRated":
-        return sorted.sort((a, b) => parseReviews(b.reviews) - parseReviews(a.reviews));
+        return sorted.sort(
+          (a, b) => parseReviews(b.reviews) - parseReviews(a.reviews)
+        );
       case "nearest":
         return sorted.sort((a, b) => a.location.localeCompare(b.location));
       case "highestRated":
         return sorted.sort((a, b) => b.rating - a.rating);
       case "newest":
-        return sorted.sort((a, b) => parseReviews(a.reviews) - parseReviews(b.reviews));
+        return sorted.sort(
+          (a, b) => parseReviews(a.reviews) - parseReviews(b.reviews)
+        );
       default:
         return sorted;
     }
   };
 
-  const isFiltered = filteredItems.length !== allItems.length || selectedSort !== null;
+  const isFiltered =
+    filteredItems.length !== allItems.length || selectedSort !== null;
   const dataToShow = isFiltered ? filteredItems : allItems;
 
   const sortedItems = sortData(dataToShow).map((item) => ({
@@ -83,15 +83,15 @@ const Home: React.FC = () => {
             </>
           ) : (
             <>
-            <div className=" w-full md:w-auto">
-              <div className="mt-[10px] md:mt-[50px] ">
-                <Discounts4U />
+              <div className=" w-full md:w-auto">
+                <div className="mt-[10px] md:mt-[50px] ">
+                  <Discounts4U />
+                </div>
+                <PartyJollof />
+                <FreeDrinks />
+                <Grilled />
+                <AllRestaurants />
               </div>
-              <PartyJollof />
-              <FreeDrinks />
-              <Grilled />
-              <AllRestaurants />
-            </div>
             </>
           )}
         </div>

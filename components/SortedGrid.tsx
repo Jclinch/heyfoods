@@ -1,25 +1,24 @@
 //components\SortedGrid.tsx
-'use client'
+"use client";
 
-import Image from 'next/image'
-import React from 'react'
+import Image from "next/image";
+import React from "react";
 
 interface SortedGridProps {
   sortedItems: {
-    id: string
-    image: string
-    name: string
-    tags: string
-    rating: number
-    reviews: number
-    discount: string
-    location: string
-    opensAt: string
-    closesAt: string
-    notice?: string
-  }[]
+    id: string;
+    image: string;
+    name: string;
+    tags: string;
+    rating: number;
+    reviews: number;
+    discount: string;
+    location: string;
+    opensAt: string;
+    closesAt: string;
+    notice?: string;
+  }[];
 }
-
 
 const SortedGrid: React.FC<SortedGridProps> = ({ sortedItems }) => {
   return (
@@ -44,12 +43,14 @@ const SortedGrid: React.FC<SortedGridProps> = ({ sortedItems }) => {
             <p className="text-sm text-gray-400">
               Opens: {item.opensAt} - Closes: {item.closesAt}
             </p>
-            {item.notice && <p className="text-sm text-red-600">{item.notice}</p>}
+            {item.notice && (
+              <p className="text-sm text-red-600">{item.notice}</p>
+            )}
           </div>
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default SortedGrid
+export default SortedGrid;

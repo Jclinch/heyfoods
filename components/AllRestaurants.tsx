@@ -112,7 +112,7 @@ const AllRestaurants = () => {
                   {restaurant.tags}
                 </p>
                 <div className="flex items-center text-xs text-gray-600 mt-1 md:text-md">
-                <Star
+                  <Star
                     fill="#22c55e"
                     className="w-3 h-3 md:w-4 md:h-4 text-green-500"
                   />

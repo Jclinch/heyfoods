@@ -16,7 +16,9 @@ export default function RootLayout({
   children: React.ReactElement;
 }) {
   const [selectedSort, setSelectedSort] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"Restaurants" | "Grocery">("Restaurants");
+  const [activeTab, setActiveTab] = useState<"Restaurants" | "Grocery">(
+    "Restaurants"
+  );
   const [tags, setTags] = useState<Tag[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
@@ -83,36 +85,36 @@ export default function RootLayout({
       {isTagFiltered ? (
         <div className="filteredContent p-4 space-y-4 transition-opacity duration-500 ease-in-out opacity-100">
           <h2 className="text-xl font-semibold mb-4">
-        {filteredItems.length} Stores near you{" "}
-        <button
-          onClick={handleReset}
-          className="text-red-500 text-sm ml-2 underline"
-        >
-          Reset
-        </button>
+            {filteredItems.length} Stores near you{" "}
+            <button
+              onClick={handleReset}
+              className="text-red-500 text-sm ml-2 underline"
+            >
+              Reset
+            </button>
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-6">
-        {filteredItems.map((item, index) => (
-          <div
-            key={index}
-            className="rounded-lg p-3 hover:shadow-md transition"
-          >
-            <Image
-          src={item.image}
-          alt={item.name}
-          className="rounded mb-2"
-          width={300}
-          height={100}
-          style={{ objectFit: "cover" }}
-            />
-            <h3 className="font-bold text-sm">{item.name}</h3>
-            <p className="text-xs text-gray-600">{item.tags}</p>
-            <div className="flex items-center gap-1 text-green-600 text-sm mt-1">
-          ⭐ {item.rating}
-          <span className="text-gray-500">({item.reviews})</span>
-            </div>
-          </div>
-        ))}
+            {filteredItems.map((item, index) => (
+              <div
+                key={index}
+                className="rounded-lg p-3 hover:shadow-md transition"
+              >
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  className="rounded mb-2"
+                  width={300}
+                  height={100}
+                  style={{ objectFit: "cover" }}
+                />
+                <h3 className="font-bold text-sm">{item.name}</h3>
+                <p className="text-xs text-gray-600">{item.tags}</p>
+                <div className="flex items-center gap-1 text-green-600 text-sm mt-1">
+                  ⭐ {item.rating}
+                  <span className="text-gray-500">({item.reviews})</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       ) : (
@@ -121,8 +123,8 @@ export default function RootLayout({
           <main className="flex h-full ">
             <div className="w-[23%] md:w-[18%] sm:w-[15%] min-w-[140px] md:min-w-[250px] p-4 sticky top-0 h-screen bg-white z-10 hidden md:block">
               <SideBarFilter
-              selectedSort={selectedSort}
-              setSelectedSort={handleSortUpdate}
+                selectedSort={selectedSort}
+                setSelectedSort={handleSortUpdate}
               />
             </div>
 

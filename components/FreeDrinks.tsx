@@ -140,45 +140,45 @@ const FreeDrinks = () => {
         style={{ maxWidth: "100%" }}
       >
         {freeDrinks.map((item) => (
-            <Card
+          <Card
             key={item.id}
             className="min-w-[200px] max-w-[200px] flex-shrink-0 sm:min-w-[350px] sm:max-w-[300px]"
             style={{ boxShadow: "none", border: "none" }}
-            >
+          >
             <div className="relative h-[60px] md:w-full md:h-32">
               <Image
-              src={item.image}
-              alt={item.name}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${!item.open && "opacity-50"}`}
+                src={item.image}
+                alt={item.name}
+                fill
+                style={{ objectFit: "cover" }}
+                className={`${!item.open && "opacity-50"}`}
               />
               <span className="absolute top-1 left-1 bg-[#000000cb] rounded-xl text-white text-[8px] px-2 py-1 ">
-              {item.discount}
+                {item.discount}
               </span>
               <span
-              className={`absolute bottom-1 left-1 px-2 py-1 text-[8px] font-medium rounded ${
-                item.open ? "" : "bg-red-500 text-white"
-              }`}
+                className={`absolute bottom-1 left-1 px-2 py-1 text-[8px] font-medium rounded ${
+                  item.open ? "" : "bg-red-500 text-white"
+                }`}
               >
-              {item.open ? "" : "Closed"}
+                {item.open ? "" : "Closed"}
               </span>
             </div>
             <CardContent className="p-2 md:p-3 ml-[-10px] md:ml-[-15px]">
               <h3 className="font-bold text-[14px] md:text-[20px]">
-              {item.name}
+                {item.name}
               </h3>
               <p className="text-xs text-gray-500 md:text-md">{item.tags}</p>
               <div className="flex items-center text-xs text-gray-600 mt-1 md:text-md">
-              <Star
-                fill="#22c55e"
-                className="w-3 h-3 md:w-4 md:h-4 text-green-500"
-              />
-              <span className="ml-1">{item.rating}</span>
-              <span className="ml-2 text-black md:ml-3">{item.reviews}</span>
+                <Star
+                  fill="#22c55e"
+                  className="w-3 h-3 md:w-4 md:h-4 text-green-500"
+                />
+                <span className="ml-1">{item.rating}</span>
+                <span className="ml-2 text-black md:ml-3">{item.reviews}</span>
               </div>
             </CardContent>
-            </Card>
+          </Card>
         ))}
       </div>
     </div>
