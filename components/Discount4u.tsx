@@ -138,52 +138,53 @@ const Discounts4U = () => {
         {restaurants.map((item) => {
           const isOpen = openStatus[item.id];
           return (
-            <div
-              key={item.id}
-              className="min-w-[200px] max-w-[200px] flex-shrink-0 sm:min-w-[350px] sm:max-w-[300px]"
-              style={{ boxShadow: "none", border: "none" }}
-
-            >
-              <Card className="relative overflow-hidden ">
-                <div className="relative h-[60px] md:w-full md:h-32">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className={`object-cover ${
-                      isOpen === false ? "opacity-50" : ""
-                    }`}
-                  />
-                  <span className="absolute top-1 left-1 text-white text-[10px] px-1 py-0.5 sm:top-2 sm:left-2 sm:text-xs sm:px-2 sm:py-1 bg-[#000000cb] rounded-xl">
-                    {item.discount}
-                  </span>
-                  {isOpen === false && (
-                    <span className="absolute bottom-1 left-1 px-1 py-0.5 text-[10px] font-medium bg-red-500 text-white sm:bottom-2 sm:left-2 sm:px-2 sm:py-1 sm:text-xs">
-                      Closed
-                    </span>
-                  )}
-                </div>
-
-                <CardContent className="p-2 md:p-3 ml-[-10px] md:ml-[-15px]">
-                  <h3 className="font-bold text-[14px] md:text-[20px]">
-                    {item.name}
-                  </h3>
-                  <p className="text-xs text-gray-500 md:text-md">
-                    {item.tags}
-                  </p>
-                  <div className="flex items-center text-xs text-gray-600 mt-1 md:text-md">
-                    <Star
-                      fill="#22c55e"
-                      className="w-3 h-3 md:w-4 md:h-4 text-green-500"
-                    />
-                    <span className="ml-1">{item.rating}</span>
-                    <span className="ml-2 text-black md:ml-3">
-                      {item.reviews}
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
+        <div
+          key={item.id}
+          className="min-w-[200px] max-w-[200px] flex-shrink-0 sm:min-w-[350px] sm:max-w-[300px]"
+        >
+          <Card
+            className="relative overflow-hidden"
+            style={{ boxShadow: "none", border: "none" }}
+          >
+            <div className="relative h-[60px] md:w-full md:h-32">
+          <Image
+            src={item.image}
+            alt={item.name}
+            fill
+            className={`object-cover ${
+              isOpen === false ? "opacity-50" : ""
+            }`}
+          />
+          <span className="absolute top-1 left-1 text-white text-[10px] px-1 py-0.5 sm:top-2 sm:left-2 sm:text-xs sm:px-2 sm:py-1 bg-[#000000cb] rounded-xl">
+            {item.discount}
+          </span>
+          {isOpen === false && (
+            <span className="absolute bottom-1 left-1 px-1 py-0.5 text-[10px] font-medium bg-red-500 text-white sm:bottom-2 sm:left-2 sm:px-2 sm:py-1 sm:text-xs">
+              Closed
+            </span>
+          )}
             </div>
+
+            <CardContent className="p-2 md:p-3 ml-[-10px] md:ml-[-15px]">
+          <h3 className="font-bold text-[14px] md:text-[20px]">
+            {item.name}
+          </h3>
+          <p className="text-xs text-gray-500 md:text-md">
+            {item.tags}
+          </p>
+          <div className="flex items-center text-xs text-gray-600 mt-1 md:text-md">
+            <Star
+              fill="#22c55e"
+              className="w-3 h-3 md:w-4 md:h-4 text-green-500"
+            />
+            <span className="ml-1">{item.rating}</span>
+            <span className="ml-2 text-black md:ml-3">
+              {item.reviews}
+            </span>
+          </div>
+            </CardContent>
+          </Card>
+        </div>
           );
         })}
       </div>

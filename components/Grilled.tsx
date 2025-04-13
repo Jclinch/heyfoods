@@ -85,39 +85,59 @@ const Grilled = () => {
   }, []);
 
   return (
-    <div className="w-full p-4">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-[40px]">
+    <div className="w-full p-4 mb-[10px] md:mb-auto">
+      {/* Header Section */}
+      <div className="flex justify-between items-center mb-[10px] md:mb-[40px]">
         <Typography
           variant="h4"
           className="font-black"
-          style={{ fontFamily: "Arial", fontSize: "26px", fontWeight: 700 }}
+          style={{
+            fontFamily: "Arial",
+            fontWeight: 700,
+            fontSize: "16px",
+          }}
         >
-          Grills and Finger Foods 🍪🍖
+          <span className="block md:hidden text-[13px] md:text-[26px]">
+            Grills and Finger <br />
+            Foods 🍪🍖
+          </span>
+          <span className="hidden md:block text-[13px] md:text-[26px]">
+            Grills and Finger Foods 🍪🍖
+          </span>
         </Typography>
         <div className="flex items-center gap-2">
-          <Typography
-            variant="body1"
-            className="font-medium"
-            style={{ fontFamily: "Arial", fontSize: "18px", fontWeight: 700 }}
-          >
-            See all
-          </Typography>
-          <div className="flex gap-2">
-            <IconButton
-              size="small"
-              onClick={() => scroll("left")}
-              className="bg-gray-100 hover:bg-gray-200"
+          <div className="flex gap-1 items-center justify-end">
+            {" "}
+            {/* This line moves the "see all" and arrow buttons to the right */}
+            <Typography
+              variant="body1"
+              className="font-medium"
+              style={{ fontFamily: "Arial", fontSize: "14px", fontWeight: 500 }}
             >
-              <ArrowBackIosNewIcon fontSize="small" />
-            </IconButton>
-            <IconButton
-              size="small"
-              onClick={() => scroll("right")}
-              className="bg-gray-100 hover:bg-gray-200"
-            >
-              <ArrowForwardIosIcon fontSize="small" />
-            </IconButton>
+              <span className="text-[12px] md:text-[20px] ">See all</span>
+            </Typography>
+            <div className="flex gap-2">
+              <IconButton
+                size="small"
+                onClick={() => scroll("left")}
+                className="bg-gray-100 hover:bg-gray-200 p-0.5 md:p-2 border"
+              >
+                <ArrowBackIosNewIcon
+                  fontSize="inherit"
+                  className="text-[6px] md:text-[24px]"
+                />
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={() => scroll("right")}
+                className="bg-gray-100 hover:bg-gray-200 p-0.5 md:p-2"
+              >
+                <ArrowForwardIosIcon
+                  fontSize="inherit"
+                  className="text-[6px] md:text-[24px]"
+                />
+              </IconButton>
+            </div>
           </div>
         </div>
       </div>
@@ -131,9 +151,10 @@ const Grilled = () => {
         {grilledContent.map((item) => (
           <Card
             key={item.id}
-            className="min-w-[350px] max-w-[300px] flex-shrink-0 relative overflow-hidden"
+            className="min-w-[200px] max-w-[200px] flex-shrink-0 sm:min-w-[350px] sm:max-w-[300px]"
+            style={{ boxShadow: "none", border: "none" }}
           >
-            <div className="relative w-full h-32">
+            <div className="relative h-[60px] md:w-full md:h-32">
               <Image
                 src={item.image}
                 alt={item.name}
@@ -141,22 +162,27 @@ const Grilled = () => {
                 style={{ objectFit: "cover" }}
                 className={`${!item.open && "opacity-50"}`}
               />
-              <span className="absolute top-2 left-2 bg-[#000000cb] text-white text-xs px-2 py-1 rounded-xl">
+              <span className="absolute top-1 left-1 bg-[#000000cb] text-white text-[8px] px-2 py-1 rounded-xl">
                 {item.discount}
               </span>
               {!item.open && (
-                <span className="absolute bottom-2 left-2 px-2 py-1 text-xs font-medium bg-red-500 text-white rounded">
+                <span className="absolute bottom-1 left-1 px-2 py-1 text-[8px] font-medium bg-red-500 text-white rounded">
                   Closed
                 </span>
               )}
             </div>
-            <CardContent className="p-3 ml-[-15px]">
-              <h3 className="font-bold text-[20px]">{item.name}</h3>
-              <p className="text-sm text-gray-500">{item.tags}</p>
-              <div className="flex items-center text-sm text-gray-600 mt-1">
-                <Star fill="#22c55e" className="w-4 h-4 text-green-500" />
+            <CardContent className="p-2 md:p-3 ml-[-10px] md:ml-[-15px]">
+              <h3 className="font-bold text-[14px] md:text-[20px]">
+                {item.name}
+              </h3>
+              <p className="text-xs text-gray-500 md:text-md">{item.tags}</p>
+              <div className="flex items-center text-xs text-gray-600 mt-1 md:text-md">
+                <Star
+                  fill="#22c55e"
+                  className="w-3 h-3 md:w-4 md:h-4 text-green-500"
+                />
                 <span className="ml-1">{item.rating}</span>
-                <span className="ml-3 text-black">{item.reviews}</span>
+                <span className="ml-2 text-black md:ml-3">{item.reviews}</span>
               </div>
             </CardContent>
           </Card>

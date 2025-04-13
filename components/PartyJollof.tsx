@@ -139,11 +139,11 @@ const PartyJollof = () => {
             className="min-w-[200px] max-w-[200px] flex-shrink-0 sm:min-w-[350px] sm:max-w-[300px]"
           >
             {/* Open/Closed Status */}
-            {!item.open && (
-              <div className="absolute top-2 left-2 bg-white text-xs px-2 py-1 rounded shadow z-10">
+            {/* {!item.open && (
+              <div className="absolute left-2 bg-white text-xs px-2 py-1 rounded shadow z-10">
                 <span className="text-red-500 font-bold">Closed</span>
               </div>
-            )}
+            )} */}
 
             <div className="relative h-[60px] md:w-full md:h-32">
               <Image

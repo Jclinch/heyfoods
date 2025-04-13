@@ -8,7 +8,7 @@ import { Star } from "lucide-react";
 import { Typography } from "@mui/material";
 
 const AllRestaurants = () => {
- interface Restaurant {
+  interface Restaurant {
     id: string;
     name: string;
     image: string;
@@ -59,13 +59,18 @@ const AllRestaurants = () => {
       <Typography
         variant="h4"
         className="font-black "
-        style={{ fontFamily: "Arial", fontSize: "26px", fontWeight: 700, marginBottom: "40px" }}
+        style={{
+          fontFamily: "Arial",
+          fontSize: "26px",
+          fontWeight: 700,
+          marginBottom: "40px",
+        }}
       >
         {" "}
         All Restaurants
       </Typography>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-6">
         {/* <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))]"> */}
 
         {restaurants.map((restaurant) => {
@@ -81,7 +86,7 @@ const AllRestaurants = () => {
                 isOpen ? "opacity-100" : "opacity-50"
               }`}
             >
-              {/* Image + open/closed badge */}
+              {/* CARD + Image + open/closed badge */}
               <div className="relative h-30 w-full">
                 <Image
                   src={restaurant.image}
@@ -100,16 +105,21 @@ const AllRestaurants = () => {
 
               {/* Info */}
               <div className="p-3 ml-[-10px]">
-                <h3 className="font-bold text-[20px] ">{restaurant.name}</h3>
-                <p className="text-sm text-gray-500 mb-2">{restaurant.tags}</p>
-                <div className="flex items-center text-sm text-gray-700 mb-2">
-                  <Star fill="#22c55e" className="w-4 h-4 text-green-500" />
+                <h3 className="font-bold text-[14px] md:text-[20px]">
+                  {restaurant.name}
+                </h3>
+                <p className="text-xs text-gray-500 md:text-md">
+                  {restaurant.tags}
+                </p>
+                <div className="flex items-center text-xs text-gray-600 mt-1 md:text-md">
+                <Star
+                    fill="#22c55e"
+                    className="w-3 h-3 md:w-4 md:h-4 text-green-500"
+                  />
                   <span className="ml-1 font-semibold">
                     {restaurant.rating}
                   </span>
-                  <span className="ml-3 text-black">
-                    {restaurant.reviews}
-                  </span>
+                  <span className="ml-3 text-black">{restaurant.reviews}</span>
                 </div>
                 {restaurant.notice && (
                   <div className="bg-gray-100 text-xs text-gray-800 rounded px-3 py-2">

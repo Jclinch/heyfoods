@@ -153,11 +153,11 @@ const FreeDrinks = () => {
               style={{ objectFit: "cover" }}
               className={`${!item.open && "opacity-50"}`}
               />
-              <span className="absolute top-2 left-2 bg-[#000000cb] rounded-xl text-white text-xs px-2 py-1 ">
+              <span className="absolute top-1 left-1 bg-[#000000cb] rounded-xl text-white text-[8px] px-2 py-1 ">
               {item.discount}
               </span>
               <span
-              className={`absolute bottom-2 left-2 px-2 py-1 text-xs font-medium rounded ${
+              className={`absolute bottom-1 left-1 px-2 py-1 text-[8px] font-medium rounded ${
                 item.open ? "" : "bg-red-500 text-white"
               }`}
               >
