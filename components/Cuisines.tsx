@@ -30,7 +30,7 @@ const Cuisines: React.FC = () => {
             style={{
               flex: "0 0 50%", // Mobile: 2 per row
               height: "120px", // Mobile image height
-              marginRight: "16px",
+              marginRight: "4px",
             }}
           >
             {/* Desktop override */}
